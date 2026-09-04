@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pointberegner – AugustenborgNet</title>
+<style>
+  :root{
+    --forest:#26362f;
+    --forest-dark:#1a2620;
+    --teal:#1c8c74;
+    --teal-dark:#136354;
+    --cream:#f7f5ef;
+    --line:#dfdcd2;
+    --ink:#26362f;
+    --warn:#b5482f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height:1.4;
+  }
+  .wrap{
+    max-width:960px;
+    margin:0 auto;
+    padding:28px 20px 100px;
+  }
+  h1{
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-weight:600;
+    font-size:1.7rem;
+    margin:0 0 4px;
+    color:var(--forest-dark);
+  }
+  .intro{
+    color:#55605a;
+    font-size:0.95rem;
+    max-width:64ch;
+    margin:0 0 24px;
+  }
+  .step-label{
+    font-size:0.78rem;
+    color:var(--teal-dark);
+    font-weight:700;
+    letter-spacing:0.02em;
+    margin-bottom:6px;
+  }
+  section.block{
+    margin-bottom:30px;
+  }
+  .pkg-options{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .pkg-card{
+    flex:1 1 140px;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    background:#fff;
+  }
+  .pkg-card.selected{
+    border-color:var(--teal);
+    background:#eef7f4;
+  }
+  .pkg-card .pts{font-size:1.3rem;font-weight:700;color:var(--forest-dark);}
+  .pkg-card .desc{font-size:0.82rem;color:#5c665f;}
+  .pkg-card .price{font-size:0.82rem;color:var(--teal-dark);margin-top:4px;font-weight:600;}
+
+  .cat-title{
+    font-size:0.8rem;
+    font-weight:700;
+    color:var(--forest-dark);
+    margin:16px 0 8px;
+  }
+  .cat-title:first-child{margin-top:0;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(180px,1fr));
+    gap:8px;
+  }
+  label.item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:8px 10px;
+    background:#fff;
+    font-size:0.86rem;
+    cursor:pointer;
+  }
+  label.item:has(input:checked){
+    border-color:var(--teal);
+    background:#eef7f4;
+  }
+  label.item span.name{flex:1;}
+  label.item span.cost{
+    color:#7a8479;
+    font-size:0.78rem;
+    white-space:nowrap;
+  }
+  label.item input{accent-color:var(--teal);}
+
+  .stream-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:8px 10px;
+    background:#fff;
+    font-size:0.86rem;
+  }
+  .stream-card.active{
+    border-color:var(--teal);
+    background:#eef7f4;
+  }
+  .stream-card .name{font-weight:600;color:var(--forest-dark);display:block;margin-bottom:4px;}
+  .stream-card select{
+    width:100%;
+    padding:5px 6px;
+    border:1px solid var(--line);
+    border-radius:5px;
+    font-size:0.84rem;
+    background:#fff;
+    color:var(--ink);
+  }
+
+  .free-note{
+    font-size:0.8rem;
+    color:#7a8479;
+    margin-top:10px;
+    line-height:1.5;
+  }
+
+  .extra-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+    font-size:0.9rem;
+    color:#55605a;
+    flex-wrap:wrap;
+  }
+  .extra-row input[type=number]{
+    width:60px;
+    padding:4px 6px;
+    border:1px solid var(--line);
+    border-radius:5px;
+    font-size:0.9rem;
+  }
+
+  .summary{
+    position:sticky;
+    bottom:0;
+    background:var(--forest-dark);
+    color:#fff;
+    border-radius:10px 10px 0 0;
+    margin-top:10px;
+    padding:16px 20px;
+    box-shadow:0 -4px 16px rgba(0,0,0,0.15);
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:0.88rem;
+    color:#c9d2cb;
+    padding:2px 0;
+  }
+  .summary-row.total{
+    font-size:1.15rem;
+    color:#fff;
+    font-weight:700;
+    border-top:1px solid rgba(255,255,255,0.15);
+    margin-top:8px;
+    padding-top:10px;
+  }
+  .summary-row .num{color:#fff;font-weight:600;}
+  .over-warning{
+    color:#ffb199;
+    font-size:0.82rem;
+    margin-top:6px;
+  }
+  .footnote{
+    font-size:0.76rem;
+    color:#9aa39c;
+    margin-top:24px;
+    border-top:1px solid var(--line);
+    padding-top:12px;
+  }
+  .extra-note{
+    font-size:0.8rem;
+    color:#7a8479;
+    margin-top:6px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Byg din egen TV-pakke</h1>
+  <p class="intro">Vælg jeres startpakke, marker de kanaler og streamingtjenester I ønsker, og se det samlede pointforbrug og pris pr. måned med det samme.</p>
+
+  <section class="block">
+    <div class="step-label">TRIN 1 · STARTPAKKE</div>
+    <div class="pkg-options" id="pkgOptions"></div>
+  </section>
+
+  <section class="block">
+    <div class="step-label">TRIN 2 · TV-KANALER</div>
+    <div id="channelCategories"></div>
+    <p class="free-note" id="freeChannelsNote"></p>
+  </section>
+
+  <section class="block">
+    <div class="step-label">TRIN 3 · STREAMINGTJENESTER</div>
+    <div class="grid" id="streamGrid"></div>
+  </section>
+
+  <section class="block">
+    <div class="step-label">TRIN 4 · EKSTRA POINT (VALGFRIT)</div>
+    <div class="extra-row">
+      <span>Køb ekstra point ud over startpakken:</span>
+      <input type="number" id="extraPoints" min="0" step="1" value="0">
+      <span>point à <span id="extraPointPrice"></span> kr./md.</span>
+    </div>
+    <div class="extra-note" id="extraNote"></div>
+  </section>
+
+  <div class="summary">
+    <div class="summary-row">
+      <span>Startpakke</span>
+      <span class="num" id="sumPkgPrice"></span>
+    </div>
+    <div class="summary-row">
+      <span>Ekstra point</span>
+      <span class="num" id="sumExtraPrice"></span>
+    </div>
+    <div class="summary-row">
+      <span>Point brugt / til rådighed</span>
+      <span class="num" id="sumPoints"></span>
+    </div>
+    <div class="summary-row total">
+      <span>Pris i alt pr. måned</span>
+      <span class="num" id="sumTotal"></span>
+    </div>
+    <div class="over-warning" id="overWarning"></div>
+  </div>
+
+  <p class="footnote">
+    Kanaler, streamingtjenester og pointpriser er hentet fra YouSee's officielle kanaloversigt (yousee.dk/shop/yousee-play/kanaloverblik),
+    og startpakke-prisen er hentet fra AugustenborgNets prisside (04.09.2026). Priserne kan ændre sig — tjek med YouSee/AugustenborgNet
+    før offentliggørelse. Man kan frit skifte kanaler og streamingtjenester, men en ny valgt kanal/tjeneste kan først udskiftes
+    igen efter 30 dage. Alle tal ligger samlet i filens datasektion øverst i scriptet og kan rettes uden kodeerfaring.
+  </p>
+</div>
+
+<script>
+/* ============================================================
+   REDIGER JERES DATA HER.
+   Kilder: yousee.dk/shop/yousee-play/kanaloverblik (kanaler, streaming, pointpriser)
+   og baf-augustenborg.dk (startpakkepris) — hentet 04.09.2026.
+   ============================================================ */
+
+// Startpakken: fast pris via AugustenborgNet, giver 10 point.
+// (YouSee's generelle liste-pris for 10 point er 329 kr./md. —
+// AugustenborgNets foreningspris er 290 kr./md.)
+const BASE_PACKAGE = { points: 10, price: 290, label: "Startpakke — 10 point (foreningspris)" };
+
+// Ekstra point: 10 kr./md. pr. point. Op til 40 point i alt sælges
+// point i 10'er-blokke (100 kr./blok), derefter enkeltvis.
+const EXTRA_POINT_PRICE = 10;
+const EXTRA_POINT_BLOCK_LIMIT = 40;
+
+// TV-kanaler grupperet som på YouSee's kanaloversigt. Point pr. kanal i parentes.
+const CHANNEL_CATEGORIES = [
+  { title: "Sport", channels: [
+    ["TV3+", 5], ["TV3 Sport", 3], ["TV3 MAX", 3], ["See", 3],
+    ["TV 2 Sport", 4], ["TV 2 Sport X", 3], ["Viaplay Sport News", 1],
+    ["Eurosport 1", 2], ["Eurosport 2", 2], ["SPORT LIVE", 1],
+    ["V Sport Golf", 1], ["V Sport UltraHD", 1], ["Motorvision.tv", 1]
+  ]},
+  { title: "Underholdning", channels: [
+    ["TV 2", 3], ["TV 2 Charlie", 2], ["TV 2 Echo", 2], ["TV3", 3],
+    ["TV3 Puls", 2], ["Kanal 5", 3], ["Kanal 4", 2], ["6'eren", 2],
+    ["Kanal 9", 2], ["TLC", 1], ["BBC Nordic", 1], ["MTV", 1],
+    ["V series", 1], ["SAT1", 1], ["TVE", 1], ["Prosieben", 1],
+    ["Rai1", 1], ["France 2", 1], ["Blue Hustler", 2], ["Mezzo", 1]
+  ]},
+  { title: "Børn", channels: [
+    ["Disney Channel", 1], ["Nickelodeon", 1], ["Nicktoons", 1],
+    ["Nick junior", 1], ["Cartoon Network", 1], ["Cartoonito", 1]
+  ]},
+  { title: "Nyheder", channels: [
+    ["TV 2 News", 2], ["CNN", 1], ["BBC News", 1], ["CNBC Europe", 1],
+    ["Euro news", 1], ["Bloomberg Television", 1], ["Aljazeera", 1]
+  ]},
+  { title: "Dokumentar", channels: [
+    ["National Geographic Wild", 1], ["National Geographic", 1], ["Animal Planet", 1],
+    ["Viasat History", 1], ["Viasat Explore", 1], ["Viasat Nature", 1],
+    ["Discovery", 1], ["Investigation Discovery", 1], ["History", 1], ["History 2", 1]
+  ]},
+  { title: "Livsstil", channels: [
+    ["TV 2 Fri", 2], ["dk4", 1], ["3sat", 1], ["ARTE", 1],
+    ["TV5MONDE", 1], ["Travel channel", 1], ["My zen tv", 1]
+  ]}
+];
+
+// Kanaler der altid følger med gratis (0 point) — vises kun som info.
+const FREE_CHANNELS = [
+  "DRTV","DR1","DR2","Ramasjang","Folketinget","TV 2 Region","Regional-tv",
+  "SVT1","SVT2","TV4","NRK1","ARD1","ZDF","NDR","RTL",
+  "YouSee Infokanalen","YouSee Eventkanalen"
+];
+
+// Streamingtjenester — hver med sine varianter og pointpris.
+const STREAMING = [
+  { name: "Netflix", variants: [
+    ["Basis", 10], ["Standard", 14], ["Premium", 18]
+  ]},
+  { name: "TV 2 Play", variants: [
+    ["Favorit med reklamer", 13], ["Favorit", 15],
+    ["Favorit + Sport med reklamer", 20], ["Favorit + Sport", 22]
+  ]},
+  { name: "Viaplay", variants: [
+    ["Film & Serier med reklamer", 8], ["Film & Serier", 12],
+    ["Champions League + Film & Serier m. reklamer", 21], ["Champions League + Film & Serier", 24],
+    ["Dansk fodbold + Film & Serier m. reklamer", 21], ["Dansk fodbold + Film & Serier", 24],
+    ["Premium med reklamer", 37], ["Premium", 40]
+  ]},
+  { name: "Disney+", variants: [
+    ["Standard med reklamer", 4], ["Standard", 7], ["Premium", 11]
+  ]},
+  { name: "HBO Max", variants: [
+    ["Basis med reklamer", 7], ["Standard", 10], ["Premium", 18]
+  ], addon: { label: "+ Sport-tilvalg", points: 4 }},
+  { name: "SkyShowtime", variants: [
+    ["Standard", 6]
+  ]},
+  { name: "Prime Video", variants: [
+    ["Standard", 5]
+  ]},
+  { name: "Nordisk Film+", variants: [
+    ["Standard", 4]
+  ]},
+  { name: "Nick+", variants: [
+    ["Standard", 3]
+  ]},
+  { name: "BBC Nordic+", variants: [
+    ["Standard", 2]
+  ]},
+  { name: "National Geographic Now", variants: [
+    ["Standard", 2]
+  ]}
+];
+
+/* ============================================================
+   Herfra kører selve beregneren — ingen grund til at redigere.
+   ============================================================ */
+
+const selectedChannels = new Set();          // kanalnavne
+const selectedStreaming = new Map();          // servicenavn -> point (0 = fravalgt)
+
+function fmt(n){ return n.toLocaleString('da-DK') + " kr."; }
+
+function renderPackages(){
+  const el = document.getElementById('pkgOptions');
+  el.innerHTML = `
+    <div class="pkg-card selected">
+      <div class="pts">${BASE_PACKAGE.points} point</div>
+      <div class="desc">${BASE_PACKAGE.label}. Opkræves direkte af AugustenborgNet.</div>
+      <div class="price">${fmt(BASE_PACKAGE.price)}/md.</div>
+    </div>
+  `;
+}
+
+function renderChannels(){
+  const wrap = document.getElementById('channelCategories');
+  wrap.innerHTML = '';
+  CHANNEL_CATEGORIES.forEach(cat => {
+    const catTitle = document.createElement('div');
+    catTitle.className = 'cat-title';
+    catTitle.textContent = cat.title;
+    wrap.appendChild(catTitle);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    cat.channels.forEach(([name, pts]) => {
+      const lab = document.createElement('label');
+      lab.className = 'item';
+      lab.innerHTML = `<span class="name">${name}</span><span class="cost">${pts} p</span>
+        <input type="checkbox">`;
+      const cb = lab.querySelector('input');
+      cb.addEventListener('change', () => {
+        if(cb.checked) selectedChannels.add(name + '|' + pts); else selectedChannels.delete(name + '|' + pts);
+        update();
+      });
+      grid.appendChild(lab);
+    });
+    wrap.appendChild(grid);
+  });
+
+  document.getElementById('freeChannelsNote').textContent =
+    "Altid inkluderet gratis, uden point: " + FREE_CHANNELS.join(', ') + ".";
+}
+
+function renderStreaming(){
+  const el = document.getElementById('streamGrid');
+  el.innerHTML = '';
+  STREAMING.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'stream-card';
+    const options = ['<option value="0">Fravalgt</option>']
+      .concat(s.variants.map(([label, pts], i) => `<option value="${pts}">${label} — ${pts} p</option>`))
+      .join('');
+    const addonHtml = s.addon
+      ? `<label class="item" style="margin-top:6px;"><span class="name">${s.addon.label}</span><span class="cost">${s.addon.points} p</span><input type="checkbox"></label>`
+      : '';
+    card.innerHTML = `<span class="name">${s.name}</span><select>${options}</select>${addonHtml}`;
+    const sel = card.querySelector('select');
+    sel.addEventListener('change', () => {
+      const pts = parseInt(sel.value, 10);
+      if(pts > 0){ selectedStreaming.set(s.name, pts); card.classList.add('active'); }
+      else { selectedStreaming.delete(s.name); card.classList.remove('active'); }
+      update();
+    });
+    if(s.addon){
+      const addonCb = card.querySelector('input[type=checkbox]');
+      addonCb.addEventListener('change', () => {
+        if(addonCb.checked) selectedStreaming.set(s.name + ' (tilvalg)', s.addon.points);
+        else selectedStreaming.delete(s.name + ' (tilvalg)');
+        update();
+      });
+    }
+    el.appendChild(card);
+  });
+}
+
+function update(){
+  const channelPts = [...selectedChannels].reduce((sum, key) => sum + parseInt(key.split('|')[1], 10), 0);
+  const streamPts = [...selectedStreaming.values()].reduce((a,b) => a+b, 0);
+  const usedPts = channelPts + streamPts;
+  const extraPts = Math.max(0, parseInt(document.getElementById('extraPoints').value || 0, 10));
+  const availablePts = BASE_PACKAGE.points + extraPts;
+
+  document.getElementById('extraPointPrice').textContent = EXTRA_POINT_PRICE;
+  document.getElementById('sumPkgPrice').textContent = fmt(BASE_PACKAGE.price);
+  document.getElementById('sumExtraPrice').textContent = fmt(extraPts * EXTRA_POINT_PRICE);
+  document.getElementById('sumPoints').textContent = `${usedPts} / ${availablePts} point`;
+
+  const total = BASE_PACKAGE.price + extraPts * EXTRA_POINT_PRICE;
+  document.getElementById('sumTotal').textContent = fmt(total);
+
+  const note = document.getElementById('extraNote');
+  if(extraPts > 0 && (BASE_PACKAGE.points + extraPts) <= EXTRA_POINT_BLOCK_LIMIT){
+    note.textContent = `Point op til ${EXTRA_POINT_BLOCK_LIMIT} i alt bestilles i 10-point-blokke hos YouSee (100 kr./md. pr. blok).`;
+  } else if((BASE_PACKAGE.points + extraPts) > EXTRA_POINT_BLOCK_LIMIT){
+    note.textContent = `Over ${EXTRA_POINT_BLOCK_LIMIT} point i alt kan yderligere point bestilles enkeltvis hos YouSee (10 kr./md. pr. point).`;
+  } else {
+    note.textContent = '';
+  }
+
+  const warn = document.getElementById('overWarning');
+  if(usedPts > availablePts){
+    warn.textContent = `I har brugt ${usedPts - availablePts} point for meget — fjern et valg eller køb flere point i trin 4.`;
+  } else {
+    warn.textContent = '';
+  }
+}
+
+document.getElementById('extraPoints').addEventListener('input', update);
+
+renderPackages();
+renderChannels();
+renderStreaming();
+update();
+</script>
+</body>
+</html>
