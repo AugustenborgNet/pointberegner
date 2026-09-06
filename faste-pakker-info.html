@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alternativ - Faste tv-pakker</title>
+<style>
+  :root{
+    --ink:#12241d;
+    --muted:#4c5d55;
+    --accent:#0e6b4f;
+    --accent-dark:#073c2d;
+    --accent-soft:#e5f2ec;
+    --paper:#f5f9f7;
+    --line:#dbe8e1;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:transparent;font-family:'Segoe UI',ui-sans-serif,system-ui,-apple-system,sans-serif;color:var(--ink);padding:0;}
+  .card{
+    max-width:1040px;
+    margin:0 auto;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 28px;
+  }
+  .badge{
+    display:inline-block;
+    font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--accent-dark);background:var(--accent-soft);
+    padding:4px 10px;border-radius:999px;margin-bottom:12px;
+  }
+  h3{font-size:17px;margin:0 0 8px;color:var(--ink);}
+  p{font-size:14px;color:var(--muted);line-height:1.6;margin:0 0 14px;max-width:70ch;}
+  .pkg-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .pkg{
+    flex:1 1 140px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+  }
+  .pkg .name{font-weight:700;font-size:13.5px;color:var(--ink);}
+  .pkg .info{font-size:12px;color:var(--muted);margin-top:2px;}
+  .cta{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--accent-dark);text-decoration:none;
+    font-weight:700;font-size:13.5px;
+  }
+  .cta:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <span class="badge">Alternativ</span>
+    <h3>Vil du hellere have en fast pakke uden at vælge selv?</h3>
+    <p>Ud over YouSee Play, hvor du selv sammensætter kanaler og streaming med point, tilbyder YouSee også deres klassiske faste tv-pakker — uden point, men med et stigende antal faste kanaler. Praktisk, hvis du hellere vil have alt samlet uden at skulle vælge noget selv.</p>
+
+    <div class="pkg-row">
+      <div class="pkg">
+        <div class="name">Mellempakke</div>
+        <div class="info">30+ faste kanaler, bl.a. sport og børne-tv</div>
+      </div>
+      <div class="pkg">
+        <div class="name">Fuldpakke</div>
+        <div class="info">50+ faste kanaler — det største udvalg</div>
+      </div>
+    </div>
+
+    <p style="margin-bottom:8px;">Priserne på de faste pakker er YouSee's almindelige listepriser og kan afvige fra jeres medlemspris — tjek altid det aktuelle tilbud hos YouSee, eller spørg AugustenborgNet, hvad der gælder for medlemmer.</p>
+
+    <a class="cta" href="https://yousee.dk/tv-pakker" target="_blank" rel="noopener">Se faste tv-pakker hos YouSee &rarr;</a>
+  </div>
+
+</body>
+</html>

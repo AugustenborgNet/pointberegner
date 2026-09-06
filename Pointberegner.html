@@ -208,6 +208,9 @@
   <section class="block">
     <div class="step-label">TRIN 1 · STARTPAKKE</div>
     <div class="pkg-options" id="pkgOptions"></div>
+    <p class="extra-note" style="margin-top:8px;">
+      Startpakken bestilles hos YouSee, da YouSee skal bruge nogle oplysninger fra dig, bl.a. din mailadresse — det er ikke tilfældet ved den traditionelle Grundpakke uden point. AugustenborgNet opkræver blot de 290 kr./md. sammen med kontingentet.
+    </p>
   </section>
 
   <section class="block">
@@ -372,7 +375,7 @@ function renderPackages(){
   el.innerHTML = `
     <div class="pkg-card selected">
       <div class="pts">${BASE_PACKAGE.points} point</div>
-      <div class="desc">${BASE_PACKAGE.label}. Opkræves direkte af AugustenborgNet.</div>
+      <div class="desc">${BASE_PACKAGE.label}. Bestilles hos YouSee (kræver bl.a. din mailadresse) — AugustenborgNet opkræver de ${BASE_PACKAGE.price} kr./md. sammen med kontingentet.</div>
       <div class="price">${fmt(BASE_PACKAGE.price)}/md.</div>
     </div>
   `;
