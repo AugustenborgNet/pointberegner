@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestyrelsen</title>
+<style>
+  :root{
+    --ink:#12241d;
+    --muted:#4c5d55;
+    --accent:#0e6b4f;
+    --accent-dark:#073c2d;
+    --accent-soft:#e5f2ec;
+    --paper:#f5f9f7;
+    --line:#dbe8e1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:transparent;
+    font-family:'Segoe UI',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    padding:0;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+
+  .intro{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px 26px;
+    margin-bottom:24px;
+  }
+  .intro h2{font-size:17px;margin:0 0 8px;}
+  .intro p{font-size:14.5px;color:var(--muted);line-height:1.6;margin:0;max-width:70ch;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(190px,1fr));
+    gap:14px;
+    margin-bottom:24px;
+  }
+  .suppleant-row{
+    grid-template-columns:repeat(2, minmax(190px,220px));
+    justify-content:center;
+  }
+  .member{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 16px;
+    text-align:center;
+  }
+  .avatar{
+    width:54px;
+    height:54px;
+    margin:0 auto 12px;
+    border-radius:50%;
+    background:var(--accent-soft);
+    color:var(--accent-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:16px;
+  }
+  .role{
+    font-size:13px;
+    font-weight:700;
+    color:var(--accent-dark);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:4px;
+  }
+  .name{
+    font-size:15px;
+    color:var(--ink);
+  }
+
+  .contact-btn{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    margin-bottom:12px;
+  }
+  .contact-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(14,107,79,0.12);
+    border-color:var(--accent);
+  }
+  .icon{
+    flex:0 0 auto;
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:var(--accent-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--accent-dark);
+  }
+  .icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;}
+  .contact-text{flex:1;}
+  .contact-text .t{display:block;font-size:14.5px;font-weight:700;color:var(--ink);}
+  .contact-text .s{display:block;font-size:12.5px;color:var(--muted);margin-top:1px;}
+  .arrow{flex:0 0 auto;color:var(--muted);font-size:16px;}
+  .contact-btn:hover .arrow{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="intro">
+    <h2>Mød din bestyrelse</h2>
+    <p>Bestyrelsen arbejder for, at medlemmerne i AugustenborgNet får den bedste service og de nyeste løsninger fra YouSee. Har du spørgsmål eller brug for hjælp, er du altid velkommen til at kontakte os herunder.</p>
+  </div>
+
+  <div class="grid">
+    <div class="member">
+      <div class="avatar">JPA</div>
+      <div class="role">Formand</div>
+      <div class="name">Jens Peter Andersen</div>
+    </div>
+    <div class="member">
+      <div class="avatar">LR</div>
+      <div class="role">Næst-Formand</div>
+      <div class="name">Lars Riemann</div>
+    </div>
+    <div class="member">
+      <div class="avatar">JM</div>
+      <div class="role">Kasserer</div>
+      <div class="name">Jan Mølgaard</div>
+    </div>
+  </div>
+
+  <div class="grid suppleant-row">
+    <div class="member">
+      <div class="avatar">FB</div>
+      <div class="role">Sekretær</div>
+      <div class="name">Flemming Berndt</div>
+    </div>
+    <div class="member">
+      <div class="avatar">HLØ</div>
+      <div class="role">Webmaster</div>
+      <div class="name">Henning Lei Østergaard</div>
+    </div>
+  </div>
+
+  <div class="grid suppleant-row">
+    <div class="member">
+      <div class="avatar">?</div>
+      <div class="role">Suppleant</div>
+      <div class="name">—</div>
+    </div>
+    <div class="member">
+      <div class="avatar">?</div>
+      <div class="role">Suppleant</div>
+      <div class="name">—</div>
+    </div>
+  </div>
+
+  <a class="contact-btn" href="mailto:info@augustenborgnet.dk">
+    <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+    <span class="contact-text">
+      <span class="t">Skriv til webmaster</span>
+      <span class="s">info@augustenborgnet.dk</span>
+    </span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
+  <a class="contact-btn" href="http://yousee.dk/Hjaelp_og_Support/Driftsinformation.aspx" target="_blank" rel="noopener">
+    <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2v6"/><path d="M8 6l4-4 4 4"/><path d="M5 12a7 7 0 0114 0"/><circle cx="12" cy="19" r="2"/></svg></span>
+    <span class="contact-text">
+      <span class="t">Driftsinformation</span>
+      <span class="s">Se aktuel driftsstatus hos YouSee</span>
+    </span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
+</div>
+</body>
+</html>
